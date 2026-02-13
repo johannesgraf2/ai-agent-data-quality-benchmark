@@ -1,64 +1,45 @@
 import React from 'react'
 import './ModelComparison.css'
 
-function ModelComparison({ models }) {
-  const getScoreColor = (score) => {
-    if (score >= 0.9) return 'excellent'
-    if (score >= 0.8) return 'good'
-    if (score >= 0.7) return 'fair'
-    return 'poor'
-  }
+const METRICS = [
+  { key: 'performance', label: 'Performance', className: 'performance' },
+  { key: 'safety', label: 'Safety', className: 'safety' },
+  { key: 'operational', label: 'Operational', className: 'operational' }
+]
 
+function ModelComparison({ models }) {
   const formatScore = (score) => (score * 100).toFixed(1) + '%'
 
   return (
-    <div className="model-comparison">
-      {models.map(model => (
-        <div key={model.id} className="model-card">
-          <h3 className="model-name">{model.name}</h3>
-          
-          <div className="scores-grid">
-            <div className="score-item">
-              <div className="score-label">Performance</div>
-              <div className={`score-value ${getScoreColor(model.scores.performance)}`}>
-                {formatScore(model.scores.performance)}
-              </div>
-              <div className="score-bar">
-                <div 
-                  className={`score-fill ${getScoreColor(model.scores.performance)}`}
-                  style={{ width: formatScore(model.scores.performance) }}
-                />
-              </div>
-            </div>
-
-            <div className="score-item">
-              <div className="score-label">Safety</div>
-              <div className={`score-value ${getScoreColor(model.scores.safety)}`}>
-                {formatScore(model.scores.safety)}
-              </div>
-              <div className="score-bar">
-                <div 
-                  className={`score-fill ${getScoreColor(model.scores.safety)}`}
-                  style={{ width: formatScore(model.scores.safety) }}
-                />
-              </div>
-            </div>
-
-            <div className="score-item">
-              <div className="score-label">Operational</div>
-              <div className={`score-value ${getScoreColor(model.scores.operational)}`}>
-                {formatScore(model.scores.operational)}
-              </div>
-              <div className="score-bar">
-                <div 
-                  className={`score-fill ${getScoreColor(model.scores.operational)}`}
-                  style={{ width: formatScore(model.scores.operational) }}
-                />
-              </div>
-            </div>
+    <div className="comparison-chart">
+      <div className="chart-legend">
+        {METRICS.map(metric => (
+          <div key={metric.key} className="legend-item">
+            <span className={`legend-swatch ${metric.className}`} />
+            {metric.label}
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
+
+      <div className="chart-body">
+        {models.map(model => (
+          <div key={model.id} className="chart-group">
+            <div className="bars">
+              {METRICS.map(metric => (
+                <div key={metric.key} className="bar-wrapper">
+                  <div
+                    className={`bar ${metric.className}`}
+                    style={{ height: `${model.scores[metric.key] * 100}%` }}
+                  >
+                    <span className="bar-value">{formatScore(model.scores[metric.key])}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="model-label">{model.name}</div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

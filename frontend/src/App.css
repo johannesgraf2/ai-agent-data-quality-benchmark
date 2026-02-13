@@ -5,7 +5,7 @@
 }
 
 .header {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
   color: white;
   padding: var(--spacing-xl) var(--spacing-lg);
   text-align: center;
@@ -75,13 +75,13 @@
 }
 
 .info-box {
-  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-  border: 1px solid #bae6fd;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
 }
 
 .info-box h3 {
   margin-bottom: var(--spacing-md);
-  color: var(--primary-dark);
+  color: var(--text);
 }
 
 .score-definitions {
@@ -93,7 +93,7 @@
 .score-def strong {
   display: block;
   margin-bottom: var(--spacing-xs);
-  color: var(--primary);
+  color: var(--text);
   font-size: 1.1rem;
 }
 

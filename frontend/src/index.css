@@ -8,10 +8,14 @@
   --primary: #2563eb;
   --primary-dark: #1e40af;
   --bg: #ffffff;
-  --bg-secondary: #f9fafb;
+  --bg-secondary: #f5f7fb;
   --border: #e5e7eb;
   --text: #1f2937;
   --text-secondary: #6b7280;
+
+  --metric-performance: #3b82f6;
+  --metric-safety: #10b981;
+  --metric-operational: #f59e0b;
   
   --excellent: #10b981;
   --good: #3b82f6;

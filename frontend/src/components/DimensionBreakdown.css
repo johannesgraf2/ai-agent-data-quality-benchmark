@@ -37,7 +37,7 @@
 .dimension-score {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--primary);
+  color: var(--text);
   margin-bottom: var(--spacing-sm);
 }
 
@@ -52,7 +52,7 @@
 
 .dimension-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+  background: var(--metric-performance);
   transition: width 0.5s ease;
   border-radius: 3px;
 }
