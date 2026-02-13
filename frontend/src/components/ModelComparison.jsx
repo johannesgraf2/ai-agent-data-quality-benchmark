@@ -1,11 +1,20 @@
 import React from 'react'
 import './ModelComparison.css'
+import geminiIcon from '../assets/gemini.svg'
+import openaiIcon from '../assets/openai.svg'
+import claudeIcon from '../assets/claude.svg'
 
 const METRICS = [
   { key: 'performance', label: 'Performance', className: 'performance' },
   { key: 'safety', label: 'Safety', className: 'safety' },
   { key: 'operational', label: 'Operational', className: 'operational' }
 ]
+
+const MODEL_ICONS = {
+  'gemini-3-pro': geminiIcon,
+  'gpt-5.1': openaiIcon,
+  'claude-4': claudeIcon
+}
 
 function ModelComparison({ models }) {
   const formatScore = (score) => (score * 100).toFixed(1) + '%'
@@ -36,7 +45,10 @@ function ModelComparison({ models }) {
                 </div>
               ))}
             </div>
-            <div className="model-label">{model.name}</div>
+            <div className="model-label">
+              <img className="model-icon" src={MODEL_ICONS[model.id]} alt="" aria-hidden="true" />
+              {model.name}
+            </div>
           </div>
         ))}
       </div>

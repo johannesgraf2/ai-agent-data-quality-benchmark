@@ -126,6 +126,16 @@
   font-weight: 600;
   color: var(--text);
   font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.model-icon {
+  width: 18px;
+  height: 18px;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.25));
 }
 
 .chart-body > * {
