@@ -6,12 +6,12 @@
 
 .header {
   background:
-    radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 45%),
-    radial-gradient(circle at top right, rgba(15, 23, 42, 0.06), transparent 40%),
+    radial-gradient(circle at top left, rgba(124, 169, 255, 0.12), transparent 45%),
+    radial-gradient(circle at top right, rgba(100, 246, 200, 0.1), transparent 42%),
     var(--bg);
   color: var(--text);
   padding: var(--spacing-xl) var(--spacing-lg);
-  text-align: center;
+  text-align: left;
   border-bottom: 1px solid var(--border);
 }
 
@@ -19,12 +19,12 @@
   font-size: 2.4rem;
   margin-bottom: var(--spacing-xs);
   font-weight: 800;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 
 .subtitle {
   font-size: 1.05rem;
-  color: #6b7280;
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
@@ -37,22 +37,23 @@
 }
 
 .section {
-  background: var(--bg);
+  background: transparent;
   border-radius: var(--border-radius);
   padding: var(--spacing-lg);
   margin-bottom: var(--spacing-lg);
-  box-shadow: var(--shadow);
 }
 
 .section h2 {
   font-size: 1.75rem;
   margin-bottom: var(--spacing-sm);
   color: var(--text);
+  text-align: left;
 }
 
 .section-desc {
   color: var(--text-secondary);
   margin-bottom: var(--spacing-md);
+  text-align: left;
 }
 
 .model-selector {
@@ -62,6 +63,7 @@
 .model-selector label {
   font-weight: 600;
   margin-right: var(--spacing-sm);
+  color: var(--text-secondary);
 }
 
 .model-selector select {
@@ -70,7 +72,8 @@
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
-  background: var(--bg);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
 }
 
 .model-selector select:focus {
@@ -79,8 +82,10 @@
 }
 
 .info-box {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
 }
 
 .info-box h3 {
@@ -107,11 +112,12 @@
 }
 
 .footer {
-  background: var(--text);
-  color: white;
-  text-align: center;
+  background: transparent;
+  color: var(--text-secondary);
+  text-align: left;
   padding: var(--spacing-lg);
   margin-top: auto;
+  border-top: 1px solid var(--border);
 }
 
 .footer a {

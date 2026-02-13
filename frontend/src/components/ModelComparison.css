@@ -26,26 +26,43 @@
 }
 
 .legend-swatch.performance {
-  background: var(--metric-performance);
+  background: var(--metric-performance-solid);
 }
 
 .legend-swatch.safety {
-  background: var(--metric-safety);
+  background: var(--metric-safety-solid);
 }
 
 .legend-swatch.operational {
-  background: var(--metric-operational);
+  background: var(--metric-operational-solid);
 }
 
 .chart-body {
   display: flex;
   align-items: flex-end;
   gap: var(--spacing-lg);
-  padding: var(--spacing-md);
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
+  padding: var(--spacing-lg);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--border-radius);
-  min-height: 320px;
+  min-height: 340px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.04) 1px,
+    transparent 1px
+  );
+  background-size: 100% 20%;
+  pointer-events: none;
 }
 
 .chart-group {
@@ -74,18 +91,19 @@
 
 .bar {
   width: 100%;
-  border-radius: 8px 8px 4px 4px;
+  border-radius: 8px 8px 6px 6px;
   position: relative;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   padding-top: 0.25rem;
   min-height: 8px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
 }
 
 .bar-value {
   position: absolute;
-  top: -1.5rem;
+  top: -1.6rem;
   font-size: 0.75rem;
   color: var(--text-secondary);
   white-space: nowrap;
@@ -108,6 +126,11 @@
   font-weight: 600;
   color: var(--text);
   font-size: 0.95rem;
+}
+
+.chart-body > * {
+  position: relative;
+  z-index: 1;
 }
 
 @media (max-width: 900px) {

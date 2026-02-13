@@ -9,12 +9,14 @@
 }
 
 .dimension-card {
-  background: var(--bg-secondary);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border);
   border-radius: var(--border-radius);
   padding: var(--spacing-md);
   text-align: center;
   transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(8px);
 }
 
 .dimension-card:hover {
