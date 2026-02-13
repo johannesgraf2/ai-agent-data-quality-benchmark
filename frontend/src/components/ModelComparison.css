@@ -69,6 +69,7 @@
   width: 28px;
   display: flex;
   align-items: flex-end;
+  height: 100%;
 }
 
 .bar {
