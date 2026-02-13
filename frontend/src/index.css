@@ -5,17 +5,17 @@
 }
 
 :root {
-  --primary: #2563eb;
-  --primary-dark: #1e40af;
+  --primary: #1e3a8a;
+  --primary-dark: #1e2f5f;
   --bg: #ffffff;
-  --bg-secondary: #f5f7fb;
+  --bg-secondary: #f3f4f6;
   --border: #e5e7eb;
-  --text: #1f2937;
+  --text: #111827;
   --text-secondary: #6b7280;
 
-  --metric-performance: #3b82f6;
-  --metric-safety: #10b981;
-  --metric-operational: #f59e0b;
+  --metric-performance: #7aa2e3;
+  --metric-safety: #7fbf9f;
+  --metric-operational: #d8b277;
   
   --excellent: #10b981;
   --good: #3b82f6;
