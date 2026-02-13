@@ -1,111 +1,133 @@
 # 🔥 AI Agent Data Quality Benchmark Dashboard
 
-A comprehensive benchmarking system for evaluating autonomous AI agents on data quality remediation tasks.
+A clean, focused dashboard for comparing AI agent performance on data quality tasks.
 
-## 🎯 Core Objective
+## 🎯 What This Shows
 
-Measure how well autonomous agents fix data quality issues across four dimensions:
-- **Accuracy** - Correcting factually wrong data
-- **Completeness** - Filling missing values
-- **Consistency** - Resolving contradictions
-- **Uniqueness** - Removing duplicates
+**3 Aggregate Scores per Model:**
+1. **Performance** - How well the agent detects and fixes errors (F1, precision, recall)
+2. **Safety** - How safely it operates without damaging clean data (corruption rate, drift)
+3. **Operational** - Production readiness and trustworthiness (reliability, robustness, auditability)
 
-**Primary Metric:** F1 Score (harmonic mean of precision and recall)
+**4 Dimension Scores:**
+- Accuracy - Fixing factually wrong data
+- Completeness - Filling missing values
+- Consistency - Resolving contradictions
+- Uniqueness - Removing duplicates
 
-## 📊 Key Metrics
+## 🚀 Quick Start
 
-### Primary Performance
-- **F1 Score** - Global and per-dimension
-- **Precision** - Avoidance of clean data damage
-- **Recall** - Detection and correction of injected errors
-- **Specificity, TPR, FPR** - Supporting detection metrics
-
-### Safety & Integrity
-- **Corruption Rate** - Edits in protected columns / total injected rows
-- **Distribution Drift** - Statistical deviation (KL divergence, Wasserstein distance)
-
-### Operational Readiness (Thesis Unique Contribution)
-- **Reliability** - Consistency across identical task executions
-- **Robustness** - Performance under perturbations
-- **Auditability** - LLM-as-judge explanation quality
-
-## 🧠 Models Supported
-- Google Gemini 3 Pro (primary focus)
-- OpenAI GPT-5.1
-- Anthropic Claude 4
-- Extensible architecture for additional models
-
-## 🏗️ Architecture
-
-### Agent-Based Design
-This project uses specialized AI agents for different responsibilities:
-- **Metrics Agent** - Computes F1, precision, recall, corruption, drift
-- **Visualization Agent** - Builds charts, dashboards, and UI components
-- **Backend Agent** - API design, data pipelines, benchmark execution
-- **Research Agent** - Academic accuracy, statistical methods, documentation
-
-### Tech Stack
-- **Frontend:** React + D3.js / Chart.js for visualizations
-- **Backend:** Python (FastAPI) for metrics computation
-- **Data Processing:** pandas, numpy, scipy for statistics
-- **Benchmark Execution:** Orchestration for multi-model runs
-
-## 📂 Project Structure
-```
-/
-├── agents/              # Agent configurations
-├── frontend/            # React dashboard
-├── backend/             # Python API + metrics
-├── benchmark/           # Task definitions + execution
-├── data/                # Sample datasets
-├── docs/                # Academic documentation
-└── README.md
-```
-
-## 🚀 Getting Started
+### 1. Clone Repository
 ```bash
-# Clone repository
 git clone https://github.com/johannesgraf2/ai-agent-data-quality-benchmark.git
 cd ai-agent-data-quality-benchmark
-
-# Install dependencies
-cd frontend && npm install
-cd ../backend && pip install -r requirements.txt
-
-# Run benchmark
-python backend/run_benchmark.py
-
-# Start dashboard
-cd frontend && npm start
 ```
 
-## 📈 Dashboard Views
+### 2. Run Frontend (Dashboard)
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-### 1. Overview Page
-- Global F1 (large KPI)
-- Global corruption rate
-- Global drift score
-- F1 by dimension (4 bars)
-- Reliability and robustness scores
+Dashboard opens at: **http://localhost:5173**
 
-### 2. Dimension Deep Dive
-- Per-difficulty F1
-- Confusion matrices
-- Error-type breakdown
-- Example corrections
-- Drift analysis
+### 3. Run Backend API (Optional)
+```bash
+cd backend
+pip install -r requirements.txt
+cd api
+python3 main.py
+```
 
-### 3. Task-Level Explorer
-- Original dataset preview
-- Injected errors highlighted
-- Agent output
-- Diff visualization
-- Metric breakdown
-- Justification text (auditability)
+API runs at: **http://localhost:8000**
+API docs at: **http://localhost:8000/docs**
 
-## 🎓 Academic Context
-This dashboard supports a master's thesis evaluating AI agents for data quality remediation, with focus on operational readiness metrics (reliability, robustness, auditability) beyond traditional ML performance metrics.
+## 📊 Current State
+
+The dashboard is **fully functional** with **mock data**. It's ready to use for:
+- Developing the UI
+- Testing visualizations
+- Presenting the concept
+
+When you have real benchmark results (in a few months), plug them in using one of the methods in [`docs/DATA_INTEGRATION.md`](docs/DATA_INTEGRATION.md).
+
+## 🎨 Features
+
+- **Model Comparison Cards** - Side-by-side comparison of 3 scores per model
+- **Dimension Breakdown** - Visual breakdown by data quality dimension
+- **Color-Coded Scores** - Green (excellent), blue (good), yellow (fair), red (poor)
+- **Responsive Design** - Works on desktop, tablet, mobile
+- **Clean & Academic** - Professional styling suitable for thesis presentation
+
+## 📂 Project Structure
+
+```
+/
+├── frontend/            # React dashboard (Vite)
+│   ├── src/
+│   │   ├── App.jsx     # Main app with mock data
+│   │   ├── components/ # ModelComparison, DimensionBreakdown
+│   │   └── *.css       # Styling
+│   └── package.json
+├── backend/             # Python FastAPI (optional)
+│   ├── api/            # REST endpoints
+│   │   └── main.py    # 3 aggregate scores API
+│   ├── metrics/        # Metric calculations (F1, corruption, drift)
+│   └── requirements.txt
+└── docs/
+    ├── DATA_INTEGRATION.md  # How to plug in real data
+    └── ROADMAP.md           # Development plan
+```
+
+## 🔧 Customization
+
+### Change Mock Data
+Edit `/frontend/src/App.jsx` lines 8-48 to update model scores.
+
+### Add More Models
+Add to the `models` array in `App.jsx`:
+```javascript
+{
+  id: 'new-model-id',
+  name: 'New Model Name',
+  scores: {
+    performance: 0.XX,
+    safety: 0.XX,
+    operational: 0.XX
+  }
+}
+```
+
+### Change Colors/Styling
+Edit CSS files in `/frontend/src/*.css` and `/frontend/src/components/*.css`.
+
+## 📖 Documentation
+
+- **[DATA_INTEGRATION.md](docs/DATA_INTEGRATION.md)** - How to plug in real benchmark results
+- **[ROADMAP.md](docs/ROADMAP.md)** - Development timeline (focus on dashboard only)
+- **[QUICKSTART.md](docs/QUICKSTART.md)** - Detailed setup guide
+
+## 🎓 Thesis Context
+
+This dashboard supports Johannes Graf's master's thesis on AI agent data quality remediation, with focus on:
+- Traditional ML metrics (F1, precision, recall)
+- Safety metrics (corruption, drift)
+- Novel operational readiness metrics (reliability, robustness, auditability)
+
+## 🦞 Built With
+
+- **Frontend:** React + Vite
+- **Styling:** CSS3 (no framework, lightweight)
+- **Backend:** FastAPI (Python) - optional
+- **Charts:** Pure CSS progress bars (simple, effective)
+
+## 📝 License
+
+MIT License - see LICENSE file
 
 ---
 
-Built with 🦞 by specialized AI agents
+**Repository:** https://github.com/johannesgraf2/ai-agent-data-quality-benchmark  
+**Author:** Johannes Graf  
+**Built with:** 🦞 Specialized AI agents

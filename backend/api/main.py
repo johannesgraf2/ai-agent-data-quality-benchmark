@@ -1,24 +1,23 @@
 """
 FastAPI Backend for AI Agent Data Quality Benchmark Dashboard
-Backend Agent: Core API implementation
+Simplified: Focus on 3 aggregate scores per model
 """
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List, Optional, Dict
-import uvicorn
+from typing import Dict, List
 
 app = FastAPI(
     title="AI Agent Data Quality Benchmark API",
-    description="REST API for evaluating AI agents on data quality remediation tasks",
+    description="REST API for AI agent benchmark dashboard",
     version="1.0.0"
 )
 
-# CORS middleware for frontend access
+# CORS middleware for frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173"],  # React/Vite dev servers
+    allow_origins=["http://localhost:5173", "http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -27,33 +26,78 @@ app.add_middleware(
 
 # ============= Data Models =============
 
-class MetricsOverview(BaseModel):
-    global_f1: float
-    global_corruption_rate: float
-    global_drift_score: float
-    global_robustness: float
-    f1_by_dimension: Dict[str, float]
-    reliability_score: float
+class ModelScores(BaseModel):
+    performance: float  # Aggregate of F1, precision, recall
+    safety: float       # Aggregate of corruption, drift
+    operational: float  # Aggregate of reliability, robustness, auditability
 
 
-class TaskResult(BaseModel):
-    task_id: str
-    dimension: str
-    difficulty: str
-    f1: float
-    precision: float
-    recall: float
-    corruption_rate: float
-    drift_score: float
-    auditability_score: float
+class Model(BaseModel):
+    id: str
+    name: str
+    scores: ModelScores
 
 
-class BenchmarkRun(BaseModel):
-    run_id: str
-    model: str
-    timestamp: str
-    task_count: int
-    status: str
+class DimensionScores(BaseModel):
+    accuracy: float
+    completeness: float
+    consistency: float
+    uniqueness: float
+
+
+# ============= Mock Data =============
+# Replace this with real data when you have it
+
+MOCK_MODELS = [
+    {
+        "id": "gemini-3-pro",
+        "name": "Google Gemini 3 Pro",
+        "scores": {
+            "performance": 0.87,
+            "safety": 0.92,
+            "operational": 0.85
+        }
+    },
+    {
+        "id": "gpt-5.1",
+        "name": "OpenAI GPT-5.1",
+        "scores": {
+            "performance": 0.89,
+            "safety": 0.88,
+            "operational": 0.83
+        }
+    },
+    {
+        "id": "claude-4",
+        "name": "Anthropic Claude 4",
+        "scores": {
+            "performance": 0.85,
+            "safety": 0.90,
+            "operational": 0.87
+        }
+    }
+]
+
+MOCK_DIMENSIONS = {
+    "gemini-3-pro": {
+        "accuracy": 0.89,
+        "completeness": 0.85,
+        "consistency": 0.88,
+        "uniqueness": 0.86
+    },
+    "gpt-5.1": {
+        "accuracy": 0.91,
+        "completeness": 0.87,
+        "consistency": 0.90,
+        "uniqueness": 0.88
+    },
+    "claude-4": {
+        "accuracy": 0.87,
+        "completeness": 0.83,
+        "consistency": 0.86,
+        "uniqueness": 0.84
+    }
+}
 
 
 # ============= API Endpoints =============
@@ -63,166 +107,96 @@ def read_root():
     return {
         "message": "AI Agent Data Quality Benchmark API",
         "docs": "/docs",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "endpoints": [
+            "/api/models",
+            "/api/dimensions/{model_id}"
+        ]
     }
 
 
-@app.get("/api/metrics/overview", response_model=MetricsOverview)
-def get_metrics_overview(model: str = "gemini-3-pro"):
+@app.get("/api/models", response_model=List[Model])
+def get_models():
     """
-    Get global metrics overview for a specific model
-    """
-    # TODO: Backend Agent - Implement actual metric computation
-    # This is placeholder data
-    return {
-        "global_f1": 0.87,
-        "global_corruption_rate": 0.05,
-        "global_drift_score": 0.12,
-        "global_robustness": 0.91,
-        "f1_by_dimension": {
-            "accuracy": 0.89,
-            "completeness": 0.85,
-            "consistency": 0.88,
-            "uniqueness": 0.86
-        },
-        "reliability_score": 0.93
-    }
-
-
-@app.get("/api/metrics/dimension/{dimension}")
-def get_dimension_metrics(dimension: str, model: str = "gemini-3-pro"):
-    """
-    Get detailed metrics for a specific dimension
-    """
-    if dimension not in ["accuracy", "completeness", "consistency", "uniqueness"]:
-        raise HTTPException(status_code=400, detail="Invalid dimension")
+    Get all models with their 3 aggregate scores
     
-    # TODO: Backend Agent - Implement
-    return {
-        "dimension": dimension,
-        "model": model,
-        "f1_by_difficulty": {
-            "easy": 0.95,
-            "medium": 0.85,
-            "hard": 0.72
-        },
-        "confusion_matrix": {
-            "tp": 85,
-            "fp": 8,
-            "tn": 92,
-            "fn": 15
-        }
-    }
+    Returns list of models with:
+    - performance: Aggregate of F1, precision, recall
+    - safety: Aggregate of corruption rate, drift
+    - operational: Aggregate of reliability, robustness, auditability
+    """
+    return MOCK_MODELS
 
 
-@app.get("/api/tasks")
-def list_tasks(dimension: Optional[str] = None, difficulty: Optional[str] = None):
+@app.get("/api/dimensions/{model_id}", response_model=DimensionScores)
+def get_dimensions(model_id: str):
     """
-    List all benchmark tasks with optional filtering
+    Get dimension breakdown for a specific model
+    
+    Returns scores for 4 dimensions:
+    - accuracy
+    - completeness
+    - consistency
+    - uniqueness
     """
-    # TODO: Backend Agent - Load from task_definitions.json
-    tasks = [
+    if model_id not in MOCK_DIMENSIONS:
+        return {"error": "Model not found"}, 404
+    
+    return MOCK_DIMENSIONS[model_id]
+
+
+# ============= Data Update Endpoint =============
+
+@app.post("/api/models/update")
+def update_model_data(models: List[Model]):
+    """
+    Update model data (for when you have real benchmark results)
+    
+    POST your data here in this format:
+    [
         {
-            "task_id": "accuracy_easy_1",
-            "dimension": "accuracy",
-            "difficulty": "easy",
-            "dataset": "e-commerce",
-            "description": "Fix incorrect product prices"
-        },
-        # ... more tasks
-    ]
-    
-    # Apply filters
-    if dimension:
-        tasks = [t for t in tasks if t["dimension"] == dimension]
-    if difficulty:
-        tasks = [t for t in tasks if t["difficulty"] == difficulty]
-    
-    return tasks
-
-
-@app.get("/api/tasks/{task_id}")
-def get_task_details(task_id: str, model: str = "gemini-3-pro"):
-    """
-    Get detailed results for a specific task
-    """
-    # TODO: Backend Agent - Load actual task results
-    return {
-        "task_id": task_id,
-        "model": model,
-        "original_dataset": [...],  # Preview rows
-        "injected_errors": [...],   # Highlighted errors
-        "agent_output": [...],      # Cleaned data
-        "metrics": {
-            "f1": 0.92,
-            "precision": 0.94,
-            "recall": 0.90,
-            "corruption_rate": 0.03
-        },
-        "justification": "Fixed 18 out of 20 errors...",
-        "auditability_score": 0.88
-    }
-
-
-@app.get("/api/models")
-def list_models():
-    """
-    List available AI models for benchmarking
-    """
-    return [
-        {
-            "model_id": "gemini-3-pro",
+            "id": "gemini-3-pro",
             "name": "Google Gemini 3 Pro",
-            "status": "available"
-        },
-        {
-            "model_id": "gpt-5.1",
-            "name": "OpenAI GPT-5.1",
-            "status": "available"
-        },
-        {
-            "model_id": "claude-4",
-            "name": "Anthropic Claude 4",
-            "status": "available"
+            "scores": {
+                "performance": 0.87,
+                "safety": 0.92,
+                "operational": 0.85
+            }
         }
     ]
-
-
-@app.post("/api/benchmark/run")
-def run_benchmark(
-    model: str,
-    dimensions: Optional[List[str]] = None,
-    difficulty: Optional[str] = None
-):
     """
-    Trigger a new benchmark run
-    """
-    # TODO: Backend Agent - Implement benchmark orchestration
+    # In production, save to database
+    # For now, just acknowledge
     return {
-        "run_id": "run-20260213-001",
-        "model": model,
-        "status": "queued",
-        "message": "Benchmark execution started"
+        "message": "Data received",
+        "models_count": len(models)
     }
 
 
-@app.get("/api/results/{run_id}")
-def get_run_results(run_id: str):
+@app.post("/api/dimensions/update")
+def update_dimension_data(model_id: str, dimensions: DimensionScores):
     """
-    Fetch results for a specific benchmark run
+    Update dimension breakdown for a model
+    
+    POST your data here:
+    {
+        "accuracy": 0.89,
+        "completeness": 0.85,
+        "consistency": 0.88,
+        "uniqueness": 0.86
+    }
     """
-    # TODO: Backend Agent - Load from storage
+    # In production, save to database
     return {
-        "run_id": run_id,
-        "model": "gemini-3-pro",
-        "status": "completed",
-        "task_results": [...]
+        "message": "Dimensions updated",
+        "model_id": model_id
     }
 
 
 # ============= Development Server =============
 
 if __name__ == "__main__":
+    import uvicorn
     uvicorn.run(
         "main:app",
         host="0.0.0.0",
