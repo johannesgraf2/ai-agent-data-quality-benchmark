@@ -5,24 +5,27 @@
 }
 
 .header {
-  background: var(--bg);
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 45%),
+    radial-gradient(circle at top right, rgba(15, 23, 42, 0.06), transparent 40%),
+    var(--bg);
   color: var(--text);
-  padding: var(--spacing-lg) var(--spacing-lg);
+  padding: var(--spacing-xl) var(--spacing-lg);
   text-align: center;
   border-bottom: 1px solid var(--border);
 }
 
 .header h1 {
-  font-size: 2.25rem;
+  font-size: 2.4rem;
   margin-bottom: var(--spacing-xs);
-  font-weight: 700;
-  letter-spacing: -0.5px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
 }
 
 .subtitle {
   font-size: 1.05rem;
-  color: var(--text-secondary);
-  font-weight: 400;
+  color: #6b7280;
+  font-weight: 500;
 }
 
 .main-content {
