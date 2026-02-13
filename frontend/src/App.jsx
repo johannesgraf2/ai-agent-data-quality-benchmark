@@ -62,8 +62,8 @@ function App() {
   return (
     <div className="app">
       <header className="header">
-        <h1>🔥 AI Agent Data Quality Benchmark</h1>
-        <p className="subtitle">Measuring autonomous agent performance on data quality remediation</p>
+        <h1>AI Agent Data Quality Benchmark</h1>
+        <p className="subtitle">Benchmarking autonomous agent performance in data quality remediation</p>
       </header>
 
       <main className="main-content">
